@@ -1,0 +1,36 @@
+package AutoHeal;
+import java.awt.Toolkit;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class PopUP {
+
+	public static void setWarningMsg(String text){
+	    Toolkit.getDefaultToolkit().beep();
+	    JOptionPane optionPane = new JOptionPane(text,JOptionPane.CLOSED_OPTION);
+	    JDialog dialog = optionPane.createDialog("Alert!");
+	    dialog.setAlwaysOnTop(true);
+	    dialog.setVisible(true);
+	}
+	
+	public static void newPopUp(String text) {
+		final JFrame parent = new JFrame();
+        JButton button = new JButton();
+
+        button.setText("Click me to show dialog!");
+        parent.add(button);
+        parent.pack();
+        parent.setVisible(true);
+
+        button.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String name = JOptionPane.showInputDialog(parent,"What is your name?", null);
+            }
+        });
+	}
+	
+	
+}

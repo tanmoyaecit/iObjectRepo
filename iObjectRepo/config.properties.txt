@@ -1,0 +1,3 @@
+input=name,id
+span=ownText
+select=id

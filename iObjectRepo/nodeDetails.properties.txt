@@ -1,0 +1,4 @@
+a=link
+button=button
+input=input
+img=image

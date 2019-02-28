@@ -1,0 +1,28 @@
+package AutoHeal;
+
+import java.awt.Graphics;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Tanmoy
+ */
+public class ImagePanel extends JPanel {
+
+    private final ImageIcon image;
+
+    public ImagePanel(ImageIcon image) {
+        this.image = image;
+        setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        setAlignmentY(java.awt.Component.CENTER_ALIGNMENT);
+        
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image.getImage(), 0, 0, this);
+    }
+}
+

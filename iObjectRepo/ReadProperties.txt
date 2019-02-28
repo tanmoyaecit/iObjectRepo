@@ -1,0 +1,19 @@
+package AutoHeal;
+
+import java.io.InputStream;
+import java.util.Properties;
+
+public class ReadProperties{
+	public void fetchPropertiesOfXpath(String node) {
+		try {
+		String result = "";
+		Properties prop = new Properties();
+		String propFileName = "config.properties";
+		InputStream inputStreamValue = getClass().getClassLoader().getResourceAsStream(propFileName);
+			prop.load(inputStreamValue);
+			System.out.println(prop.getProperty(node));
+		}catch(Exception e) {
+			e.getMessage();
+		}
+	}
+}
