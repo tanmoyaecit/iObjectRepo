@@ -61,7 +61,7 @@ public class XpathCapture {
         
         for (Element element : elements) {
             StringBuilder path;
-            if (StringUtils.hasLength(element.id())) {
+            if (StringUtils.hasLength(element.id()) && XpathCapture.makeDynamicId(element.id().toString()).equals("true")) {
             	
                 path = new StringBuilder("//*[@id=\"" + element.id() + "\"]");
             } else {
@@ -71,7 +71,7 @@ public class XpathCapture {
                     path.append("[").append(position).append("]");
                 }
                 for (Element el : element.parents()) {
-                    if (StringUtils.hasLength(el.id())) {
+                    if (StringUtils.hasLength(el.id()) && XpathCapture.makeDynamicId(el.id().toString()).equals("true")) {
                         path.insert(0, "//*[@id=\"" + el.id() + "\"]/");
                     } else {
                         position = getElementPosition(el);
@@ -87,7 +87,7 @@ public class XpathCapture {
                     path.delete(0, index - 2);
                 }
             }
-            //System.out.println(path + " = " + element.attributes());
+            System.out.println(path + " = " + element.attributes());
             
             
             String attributesNames="";
@@ -97,6 +97,7 @@ public class XpathCapture {
             String elementGeneratedName = "";
             String nodeType = "";
             String node = "";
+            String nodeName = element.nodeName();
             StringBuffer elementNameBuffer = new StringBuffer("");
             Properties prop = new Properties();
             String propFileName = "nodeDetails.properties";
@@ -148,6 +149,14 @@ public class XpathCapture {
             }
             
             String[] elementNameArr = elementNameBuffer.toString().split("_");
+            if(elementNameArr[0].equalsIgnoreCase("*")) {
+            	prop.load(inputStreamValue);
+            	String eleNodeName = prop.getProperty(nodeName);
+            	if(eleNodeName==null) {
+            		elementNameBuffer.replace(0, 1, nodeName);
+            	}
+            	else elementNameBuffer.replace(0, 1, eleNodeName);
+            }
             
             if(!elementNameBuffer.toString().equals("") && elementNameArr.length>1) {
             	if(elementNameBuffer.substring(elementNameBuffer.length() - 1).equalsIgnoreCase("_")) {
@@ -250,20 +259,29 @@ private Map<String, String> makeUniqueName(ArrayList<String> xpathList, ArrayLis
     	return xpathDetails;
     }
 
-public static String makeDynamicId(String id) {
+public static String makeDynamicId(String id) {	
 	
-	
-	int count = 0;
-    char[] chars = id.toCharArray();
-    StringBuilder sb = new StringBuilder();
-    for(char c : chars){
-       if((Character.isDigit(c))){
-          count=count+1;
-       }
-       else sb.append(c);
-    }
+	if(id.equals("postsbc")) {
+		System.out.println();
+	}
+	String status = "false";
+	if(!id.equals("")) {
+		char[] chars = id.toCharArray();
+		   /* StringBuilder sb = new StringBuilder();
+		    for(char c : chars){
+		       if((Character.isDigit(c))){
+		          count=count+1;
+		       }
+		       else sb.append(c);
+		    }*/
+		    
+		    if(Character.isDigit(chars[chars.length-1])) {
+		    	status="false";
+		    } else status = "true";
+	}
+    
        
-	return sb+"!"+Integer.toString(count);
+	return status;
 	
 }
     
